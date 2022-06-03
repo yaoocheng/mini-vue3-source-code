@@ -35,7 +35,6 @@ function effection(eft) {
 // vue3中watchEffect会依赖响应数据进行执行，所以会被添加到响应数据的依赖集合中
 // 相当于render watcher被记录在dep中，数据变化执行这个watcher函数
 const watchEffect = (effect) => {
-    console.log('render watcher首次运行，让当前响应数据的dep记录render watcher函数');
     // 首次运行让当前响应数据的dep记录这个依赖函数加入到订阅集合中
     effection(effect)
 }
