@@ -55,7 +55,7 @@ const mount = (vnode, container) => {
 
 // diff对比
 const patch = (v1, v2) => {
-    console.log('新旧vdom对比');
+    console.log('新旧vdom对比并重新渲染');
     // tag相同情况
     if (v1.tag === v2.tag) {
         const el = v2.el = v1.el;

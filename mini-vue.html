@@ -36,15 +36,14 @@
                     class: 'demo',
                     onclick: () => {
                         this.data.value++;
-                        console.log(res.value);
                     }
                 }, this.data.value);
             }
         }
 
-        let res = computed(() => {
-            return App.data.value + 1
-        })
+        // let res = computed(() => {
+        //     return App.data.value + 1
+        // })
 
         createApp(App);
     </script>

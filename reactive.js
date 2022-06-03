@@ -8,17 +8,17 @@ class Dep {
         this.subscribers = new Set();
     }
 
-    // 读取时触发 添加订阅函数 
+    // 读取时触发 添加依赖函数 
     depend() {
-        // console.log('get(读取数据时触发dep.depend): 订阅集合添加依赖此数据的watch函数');
         if (activeEffect) {
             this.subscribers.add(activeEffect);
+            console.log('get(读取数据时触发dep.depend): 添加依赖函数');
         }
     }
 
-    // 更新时触发 触发订阅函数执行
+    // 更新时触发 触发依赖函数执行
     notify() {
-        // console.log('set(数据变化时触发dep.notify): 执行订阅集合中所有依赖此数据的watch函数');
+        console.log('set(数据变化时触发dep.notify): 执行依赖函数');
         this.subscribers.forEach(effect => {
             effect();
         })
@@ -35,16 +35,15 @@ function effection(eft) {
 // vue3中watchEffect会依赖响应数据进行执行，所以会被添加到响应数据的依赖集合中
 // 相当于render watcher被记录在dep中，数据变化执行这个watcher函数
 const watchEffect = (effect) => {
-    // 首次运行让当前响应数据的dep记录这个依赖函数加入到订阅集合中
     effection(effect)
 }
 
 
 // computed
 const computed = (getter) => {
-    const result = ref(null);  // 定义响应式数据对象
-    effection(() => result.value = getter());  // 当依赖数据变化触发匿名函数运行
-    return result  // ⭐ 将整个响应对象返回给接受的变量，此时变量指向响应对象，并跟随响应对象的值变化而变化
+    const result = ref(null); // 定义响应式数据对象
+    effection(() => result.value = getter()); // 当依赖数据变化触发匿名函数运行
+    return result // ⭐ 将整个响应对象返回给接受的变量，此时变量指向响应对象，并跟随响应对象的值变化而变化
 }
 
 // 将原对象处理为响应式
@@ -66,7 +65,7 @@ const getDep = (target, key) => {
 }
 
 const reactive = (raw) => {
-    console.log('响应式处理，每个属性添加dep对象');
+    console.log('数据响应式处理，并为数据添加dep对象');
     //ES5 响应式写法
     // Object.keys(raw).forEach(key => {
     //     // 为每个属性创建一个dep
@@ -74,12 +73,12 @@ const reactive = (raw) => {
     //     let value = raw[key];
 
     //     Object.defineProperty(raw, key, {
-    //         //读取时触发 添加订阅函数
+    //         //读取时触发 添加依赖函数
     //         get() {
     //             dep.depend()
     //             return value;
     //         },
-    //         //更新时触发 触发订阅函数执行
+    //         //更新时触发 触发依赖函数执行
     //         set(newValue) {
     //             value = newValue;
     //             dep.notify();
