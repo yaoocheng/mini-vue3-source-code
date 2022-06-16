@@ -17,7 +17,11 @@ const mount = (vnode, container) => {
     if (vnode.props) {
         for (k in vnode.props) {
             if (k.startsWith('on')) {
-                el.addEventListener(k.slice(2).toLowerCase(), vnode.props[k])
+                let fn = vnode.props[k];
+                if (typeof vnode.props[k] === 'string') {
+                    fn = new Function(`return ${vnode.props[k]}`)() ;
+                }
+                el.addEventListener(k.slice(2).toLowerCase(), fn);
             } else {
                 el.setAttribute(k, vnode.props[k]);
             }

@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .demo {
+        .demo,
+        .foo {
             width: 100%;
             height: 200px;
             background-color: rgb(8, 111, 255);
@@ -22,13 +23,13 @@
 <body>
     <div class="" id="app">
     </div>
+
+    <script src="./mycompiler.js"></script>
     <script src="./vdom.js"></script>
-    <script src="./compiler.js"></script>
     <script src="./reactive.js"></script>
     <script src="./createApp.js"></script>
 
     <script>
-        // 写App一个组件 或者不使用render函数，直接写template(需要写个编译器)
         const App = {
             data: ref(1),
             render() {
@@ -36,14 +37,22 @@
                     class: 'demo',
                     onclick: () => {
                         this.data.value++;
+                        console.log(computedData.value);
                     }
                 }, this.data.value);
-            }
+            },
         }
+        let computedData = computed(() => {
+            return App.data.value + 1
+        })
 
-        // let res = computed(() => {
-        //     return App.data.value + 1
-        // })
+
+        // const data = ref(1);
+        // const App = {
+        //     template: `<div class="foo" onclick="() => {data.value++; console.log(data.value)}">
+        //                     <p>foo</p>
+        //                 </div>`
+        // }
 
         createApp(App);
     </script>

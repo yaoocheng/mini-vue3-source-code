@@ -7,9 +7,9 @@ const createApp = (App) => {
         if (App.render) {
             vdom = App.render();
         } else if (App.template) {
-            vdom = compile(App.template)()
+            vdom = compiler(App.template)()
         } else {
-            vdom = compile(document.getElementById('app').innerHTML)()
+            vdom = compiler(document.getElementById('app').innerHTML)()
         }
         return vdom
     }
